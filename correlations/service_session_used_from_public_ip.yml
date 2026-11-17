@@ -1,0 +1,23 @@
+title: Service-Issued Role Session Used From Public IP
+id: 9b3f7c20-5d18-4a6e-8e41-2c7d0a9f6b35
+status: experimental
+description: >
+  An AWS service assumed a role and created a session. API calls using that
+  same session later come from a public IPv4 address outside AWS. This may
+  mean the credentials were extracted from the service, for example from a
+  container or function, and are being used elsewhere.
+logsource:
+  product: aws
+  service: cloudtrail
+correlation:
+  type: service_session
+  max_age_minutes: 360
+  known_egress_ips: []
+  exclude_aws_ip_ranges: true
+falsepositives:
+  - Services that legitimately call AWS APIs from their own public egress IP
+  - Attackers using the credentials from inside AWS will not be detected
+level: high
+tags:
+  - attack.credential_access
+  - attack.t1528

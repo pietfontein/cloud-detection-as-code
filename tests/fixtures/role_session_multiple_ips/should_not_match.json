@@ -1,0 +1,17 @@
+{"Records": [
+  {"eventTime": "2018-11-28T10:00:00Z", "eventName": "ListBuckets",
+   "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::111111111111:assumed-role/dev/alice"},
+   "sourceIPAddress": "203.0.113.20", "userAgent": "aws-cli/2.0.0"},
+  {"eventTime": "2018-11-28T14:00:00Z", "eventName": "ListBuckets",
+   "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::111111111111:assumed-role/dev/alice"},
+   "sourceIPAddress": "203.0.113.99", "userAgent": "aws-cli/2.0.0"},
+  {"eventTime": "2018-11-28T23:03:12Z", "eventName": "AssumeRole",
+   "userIdentity": {"type": "AWSService", "invokedBy": "ecs-tasks.amazonaws.com"},
+   "sourceIPAddress": "ecs-tasks.amazonaws.com", "userAgent": "ecs-tasks.amazonaws.com"},
+  {"eventTime": "2018-11-28T23:05:00Z", "eventName": "ListBuckets",
+   "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::111111111111:assumed-role/ops/bob"},
+   "sourceIPAddress": "203.0.113.31", "userAgent": "aws-cli/2.0.0"},
+  {"eventTime": "2018-11-28T23:06:00Z", "eventName": "ListBuckets",
+   "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::111111111111:assumed-role/ops/carol"},
+   "sourceIPAddress": "203.0.113.77", "userAgent": "aws-cli/2.0.0"}
+]}

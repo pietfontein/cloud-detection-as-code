@@ -1,0 +1,11 @@
+{"Records": [
+  {"eventTime": "2018-11-28T22:31:59Z", "eventName": "AssumeRole",
+   "eventSource": "sts.amazonaws.com",
+   "userIdentity": {"type": "AWSService", "invokedBy": "ecs-tasks.amazonaws.com"},
+   "sourceIPAddress": "ecs-tasks.amazonaws.com", "userAgent": "ecs-tasks.amazonaws.com",
+   "requestParameters": {"roleSessionName": "sess-1234", "roleArn": "arn:aws:iam::111111111111:role/task"}},
+  {"eventTime": "2018-11-28T23:09:28Z", "eventName": "ListBuckets",
+   "eventSource": "s3.amazonaws.com",
+   "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::111111111111:assumed-role/task/sess-1234"},
+   "sourceIPAddress": "203.0.113.50", "userAgent": "aws-cli/1.16.19"}
+]}

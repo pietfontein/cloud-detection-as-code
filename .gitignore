@@ -1,0 +1,6 @@
+data/
+flaws2.duckdb
+__pycache__/
+.pytest_cache/
+venv/
+*.pem

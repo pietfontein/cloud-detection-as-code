@@ -1,0 +1,21 @@
+title: Role Session Used From Multiple IPs
+id: 2d8e5b1c-7a43-4f96-b0e2-5c9a1f3d8e47
+status: experimental
+description: >
+  The same assumed-role identity makes API calls from two different public
+  IP addresses within a short window. This suggests credentials were stolen
+  and are being used from a second location.
+logsource:
+  product: aws
+  service: cloudtrail
+correlation:
+  group_by: userIdentity.arn
+  distinct_field: sourceIPAddress
+  timespan_minutes: 60
+falsepositives:
+  - A user switching networks (home Wi-Fi to phone hotspot, VPN on/off)
+  - Roles used behind load-balanced or multi-region NAT egress
+level: high
+tags:
+  - attack.credential_access
+  - attack.t1528

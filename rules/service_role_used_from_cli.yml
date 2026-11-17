@@ -1,0 +1,27 @@
+title: Service Role Credentials Used From CLI
+id: 6f1c9a4e-3b7d-4e0a-9c52-8d1f2a7b5e10
+status: experimental
+description: >
+  Roles meant only for AWS services (Lambda, ECS tasks) are being used
+  with an interactive CLI or SDK user agent. This suggests stolen
+  credentials.
+logsource:
+  product: aws
+  service: cloudtrail
+detection:
+  selection_role:
+    userIdentity.type: AssumedRole
+    userIdentity.arn|contains:
+      - ':assumed-role/level1/'
+      - ':assumed-role/level3/'
+  selection_cli:
+    userAgent|contains:
+      - 'aws-cli'
+      - 'botocore'
+  condition: selection_role and selection_cli
+falsepositives:
+  - A developer deliberately assuming one of these roles for debugging
+level: high
+tags:
+  - attack.initial_access
+  - attack.t1078.004

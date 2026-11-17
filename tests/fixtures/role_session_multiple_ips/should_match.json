@@ -1,0 +1,8 @@
+{"Records": [
+  {"eventTime": "2018-11-28T23:03:12Z", "eventName": "CreateLogStream",
+   "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::111111111111:assumed-role/app/app"},
+   "sourceIPAddress": "198.51.100.7", "userAgent": "awslambda-worker"},
+  {"eventTime": "2018-11-28T23:10:00Z", "eventName": "ListBuckets",
+   "userIdentity": {"type": "AssumedRole", "arn": "arn:aws:sts::111111111111:assumed-role/app/app"},
+   "sourceIPAddress": "203.0.113.50", "userAgent": "aws-cli/1.16.19"}
+]}
