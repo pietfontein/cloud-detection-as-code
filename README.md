@@ -6,6 +6,31 @@ A small, tested detection pipeline that finds a real attacker's path through AWS
 
 **Why I built it:** most beginner cloud security projects are about building defenses. Detection engineering, deciding what an attack looks like in logs and writing rules to catch it, is a separate skill and a real job. I wanted to learn how attackers behave in AWS, and to practice measuring whether a rule is any good instead of just writing one.
 
+## Architecture
+
+```mermaid
+flowchart TD
+    A["flAWS2 CloudTrail logs<br/>8 files, 37 events"] --> B["load.py<br/>JSON into DuckDB"]
+    B --> C[("events table<br/>one row per API call")]
+    C --> D["Rule 1: service role from CLI<br/>engine.py + rules/"]
+    C --> E["Rules 2 and 3: correlations<br/>correlation_engine.py + correlations/"]
+    F["aws-ip-ranges.json<br/>filters Lambda noise"] --> E
+    D --> G["Detections on real data<br/>run_rules.py"]
+    E --> G
+    H["Fixtures<br/>should_match and should_not_match"] --> I["pytest<br/>6 tests"]
+    I -.->|checks| D
+    I -.->|checks| E
+
+    classDef data fill:#F1EFE8,stroke:#5F5E5A,color:#2C2C2A
+    classDef logic fill:#EEEDFE,stroke:#534AB7,color:#26215C
+    classDef result fill:#E1F5EE,stroke:#0F6E56,color:#04342C
+    class A,B,C,F,H data
+    class D,E logic
+    class G,I result
+```
+
+**How to read it:** logs go into DuckDB once. Two engines run the rules against that table, and `run_rules.py` prints the detections. The test layer runs the same engines against small hand-made fixtures, so every rule is checked on events that should and should not trigger it.
+
 ---
 
 ## Contents
@@ -249,27 +274,3 @@ detection-as-code/
 - AWS IP ranges from Amazon's published `ip-ranges.json`.
 - Detection mappings use [MITRE ATT&CK](https://attack.mitre.org/): T1078.004 (Valid Accounts: Cloud Accounts) and T1528 (Steal Application Access Token).
 
-## Architecture
-
-```mermaid
-flowchart TD
-    A["flAWS2 CloudTrail logs<br/>8 files, 37 events"] --> B["load.py<br/>JSON into DuckDB"]
-    B --> C[("events table<br/>one row per API call")]
-    C --> D["Rule 1: service role from CLI<br/>engine.py + rules/"]
-    C --> E["Rules 2 and 3: correlations<br/>correlation_engine.py + correlations/"]
-    F["aws-ip-ranges.json<br/>filters Lambda noise"] --> E
-    D --> G["Detections on real data<br/>run_rules.py"]
-    E --> G
-    H["Fixtures<br/>should_match and should_not_match"] --> I["pytest<br/>6 tests"]
-    I -.->|checks| D
-    I -.->|checks| E
-
-    classDef data fill:#F1EFE8,stroke:#5F5E5A,color:#2C2C2A
-    classDef logic fill:#EEEDFE,stroke:#534AB7,color:#26215C
-    classDef result fill:#E1F5EE,stroke:#0F6E56,color:#04342C
-    class A,B,C,F,H data
-    class D,E logic
-    class G,I result
-```
-
-**How to read it:** logs go into DuckDB once. Two engines run the rules against that table, and `run_rules.py` prints the detections. The test layer runs the same engines against small hand-made fixtures, so every rule is checked on events that should and should not trigger it.
